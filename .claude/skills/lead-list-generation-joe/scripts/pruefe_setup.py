@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prueft, ob die drei Zugaenge sitzen. Gibt kein Geld aus und druckt keinen Schluessel.
+"""Prüft, ob die drei Zugänge sitzen. Gibt kein Geld aus und druckt keinen Schlüssel.
 
     python3 scripts/pruefe_setup.py
 """
@@ -13,7 +13,7 @@ OK, FEHLT = "[ ok ]", "[FEHLT]"
 
 
 def schluessel(name):
-    """Gibt nur zurueck, OB der Wert da ist und wie lang er ist. Nie den Wert selbst."""
+    """Gibt nur zurück, OB der Wert da ist und wie lang er ist. Nie den Wert selbst."""
     wert = os.environ.get(name, "").strip()
     return wert, (f"gesetzt, {len(wert)} Zeichen" if wert else "nicht gesetzt")
 
@@ -22,7 +22,7 @@ def main():
     load_keys()
     envfile = ROOT / ("." + "env")
     print(f"\nRepo:      {ROOT}")
-    print(f"Schluessel-Datei: {'gefunden' if envfile.exists() else 'NICHT GEFUNDEN'}\n")
+    print(f"Schlüssel-Datei: {'gefunden' if envfile.exists() else 'NICHT GEFUNDEN'}\n")
 
     fehler = 0
 
@@ -31,7 +31,7 @@ def main():
     print(f"Apify          {lage}")
     if not tok:
         fehler += 1
-        print(f"  {FEHLT} Ohne Token koennen keine Personen geholt werden.")
+        print(f"  {FEHLT} Ohne Token können keine Personen geholt werden.")
     else:
         st, body = http("GET", f"https://api.apify.com/v2/users/me?token={tok}")
         if st == 200:
@@ -39,14 +39,14 @@ def main():
             print(f"  {OK} verbunden als {nutzer}")
         else:
             fehler += 1
-            print(f"  {FEHLT} Apify antwortet mit HTTP {st}. Token pruefen.")
+            print(f"  {FEHLT} Apify antwortet mit HTTP {st}. Token prüfen.")
 
     # --- BetterContact ---
     bc, lage = schluessel("BETTERCONTACT_API_KEY")
     print(f"\nBetterContact  {lage}")
     if not bc:
         fehler += 1
-        print(f"  {FEHLT} Ohne Schluessel gibt es keine E-Mails und Nummern aus Runde 1.")
+        print(f"  {FEHLT} Ohne Schlüssel gibt es keine E-Mails und Nummern aus Runde 1.")
     else:
         st, body = http("GET", "https://app.bettercontact.rocks/api/v2/account",
                         headers={"X-API-Key": bc})
@@ -54,7 +54,7 @@ def main():
             print(f"  {OK} verbunden, Guthaben: {body.get('credits_left', 'unbekannt')}")
         elif st == 401:
             fehler += 1
-            print(f"  {FEHLT} Schluessel abgelehnt (401). Er gehoert in X-API-Key, "
+            print(f"  {FEHLT} Schlüssel abgelehnt (401). Er gehört in X-API-Key, "
                   f"nicht als Authorization: Bearer.")
         else:
             fehler += 1
@@ -65,7 +65,7 @@ def main():
     print(f"\nLusha          {lage}")
     if not lu:
         fehler += 1
-        print(f"  {FEHLT} Ohne Schluessel faellt die zweite Anreicherungs-Runde aus.")
+        print(f"  {FEHLT} Ohne Schlüssel fällt die zweite Anreicherungs-Runde aus.")
     else:
         st, body = http("GET", "https://api.lusha.com/account/usage",
                         headers={"api_key": lu})
@@ -74,7 +74,7 @@ def main():
             print(f"  {OK} verbunden, Guthaben: {rest}")
         elif st == 401:
             fehler += 1
-            print(f"  {FEHLT} Schluessel abgelehnt (401). Er gehoert in den Header api_key.")
+            print(f"  {FEHLT} Schlüssel abgelehnt (401). Er gehört in den Header api_key.")
         else:
             fehler += 1
             print(f"  {FEHLT} Lusha antwortet mit HTTP {st}.")
@@ -92,7 +92,7 @@ def main():
     if fehler:
         print(f"{fehler} Punkt(e) offen. Details oben, Hilfe in SETUP.md.")
         sys.exit(1)
-    print("Alles da. Starte claude und sag, dass du eine Kaeuferliste brauchst.")
+    print("Alles da. Starte claude und sag, dass du eine Käuferliste brauchst.")
 
 
 if __name__ == "__main__":

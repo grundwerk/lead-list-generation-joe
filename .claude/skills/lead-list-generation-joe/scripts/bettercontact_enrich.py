@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Schritt 4: E-Mail und Mobilnummer ueber BetterContact holen.
+"""Schritt 4: E-Mail und Mobilnummer über BetterContact holen.
 
 Liest output/03_personen_gefiltert.csv, schickt die Personen in Paketen zu 100 los
 und holt die Ergebnisse ab. Legt jede Antwort roh ab.
@@ -7,7 +7,7 @@ und holt die Ergebnisse ab. Legt jede Antwort roh ab.
 Die eine Falle, die hier Geld kostet: BetterContact ist NICHT wiederhol-sicher.
 Ein zweites Abschicken derselben Personen zahlt zweimal. Deshalb merkt sich dieses
 Skript jede Paket-Nummer in output/04_bettercontact_state.json und schickt ein bereits
-abgeschicktes Paket nie erneut los. Diese Datei nicht loeschen.
+abgeschicktes Paket nie erneut los. Diese Datei nicht löschen.
 
 Beispiel:
   python3 scripts/bettercontact_enrich.py --telefon --email
@@ -47,7 +47,7 @@ def main():
     with open(a.personen, newline="", encoding="utf-8-sig") as f:
         personen = [r for r in csv.DictReader(f)]
     if not personen:
-        die(f"{a.personen} ist leer. Erst Schritt 3 (Passung pruefen) abschliessen.")
+        die(f"{a.personen} ist leer. Erst Schritt 3 (Passung prüfen) abschließen.")
 
     fehlend = [p.get("person_id") for p in personen
                if not (p.get("vorname") and p.get("nachname")
@@ -59,7 +59,7 @@ def main():
 
     st, konto = http("GET", f"{BASIS}/account", headers={"X-API-Key": key})
     if st == 401:
-        die("BetterContact lehnt den Schluessel ab (401). Er gehoert in den Header X-API-Key, "
+        die("BetterContact lehnt den Schlüssel ab (401). Er gehört in den Header X-API-Key, "
             "nicht als Authorization: Bearer.")
     guthaben = konto.get("credits_left")
 
@@ -70,8 +70,8 @@ def main():
     text = (
         f"\nBetterContact\n"
         f"  Personen:      {len(personen)}\n"
-        f"  Pakete:        {len(pakete)} (je hoechstens {PAKET})\n"
-        f"  davon neu:     {len(offen)} - der Rest wurde frueher schon abgeschickt und wird nur abgeholt\n"
+        f"  Pakete:        {len(pakete)} (je höchstens {PAKET})\n"
+        f"  davon neu:     {len(offen)} - der Rest wurde früher schon abgeschickt und wird nur abgeholt\n"
         f"  Gesucht wird:  {'E-Mail ' if a.email else ''}{'Mobilnummer' if a.telefon else ''}\n"
         f"  Guthaben:      {guthaben if guthaben is not None else 'nicht auslesbar'}\n"
         f"  Abgerechnet wird je gefundener Angabe, nicht je Anfrage. Wo nichts gefunden\n"
@@ -123,19 +123,19 @@ def main():
         while True:
             st, body = http("GET", f"{BASIS}/async/{rid}", headers={"X-API-Key": key})
             status = body.get("status")
-            # Entscheidend: auf status pruefen, nicht auf den HTTP-Code. Ein 202 ist
-            # "laeuft noch" und hat ein leeres data-Feld. Wer nur auf 2xx prueft, liest
+            # Entscheidend: auf status prüfen, nicht auf den HTTP-Code. Ein 202 ist
+            # "läuft noch" und hat ein leeres data-Feld. Wer nur auf 2xx prüft, liest
             # das leere Feld und glaubt, es sei nichts gefunden worden.
             if status == "terminated":
                 alle.extend(body.get("data", []))
                 print(f"  Paket {int(schluessel) + 1}: fertig, {len(body.get('data', []))} Zeilen")
                 break
             if status == "on_hold":
-                die(f"Paket {int(schluessel) + 1} haengt: das Guthaben ist mitten im Lauf leer "
-                    f"geworden. Aufladen, dann laeuft es von selbst weiter. NICHT neu abschicken.")
+                die(f"Paket {int(schluessel) + 1} hängt: das Guthaben ist mitten im Lauf leer "
+                    f"geworden. Aufladen, dann läuft es von selbst weiter. NICHT neu abschicken.")
             if time.time() - beginn > 1800:
                 die(f"Paket {int(schluessel) + 1} ist nach 30 Minuten noch nicht fertig "
-                    f"(Zustand: {status}). Spaeter dieses Skript erneut starten, "
+                    f"(Zustand: {status}). Später dieses Skript erneut starten, "
                     f"die Pakete werden dann nur abgeholt.")
             time.sleep(15)
 

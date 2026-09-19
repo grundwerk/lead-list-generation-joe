@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Schritt 6: alles zu einer Excel-Datei zusammenfuehren.
+"""Schritt 6: alles zu einer Excel-Datei zusammenführen.
 
 Nimmt die gefilterten Personen, die BetterContact-Ergebnisse und die Lusha-Ergebnisse
-und baut daraus output/06_kaeuferliste.xlsx mit drei Blaettern:
+und baut daraus output/06_kaeuferliste.xlsx mit drei Blättern:
 
   Anrufliste    eine Zeile je Person, Anrufbare zuerst
   Firmen        die Firmen aus Schritt 1
   Zusammenfassung  was reinging, was rauskam, wo es verloren ging
 
-Die beiden Anreicherungs-Quellen stehen in GETRENNTEN Spalten. Zusaetzlich gibt es
+Die beiden Anreicherungs-Quellen stehen in GETRENNTEN Spalten. Zusätzlich gibt es
 je eine Spalte "beste E-Mail" und "beste Nummer" zum direkten Arbeiten. Getrennt
 bleiben sie, damit man bei einer falschen Nummer weiss, wer sie geliefert hat.
 """
@@ -60,7 +60,7 @@ def main():
     personen = csv_lesen(a.personen)
     firmen = csv_lesen(a.firmen, pflicht=False)
     if not personen:
-        die("Keine Personen. Erst Schritt 3 abschliessen.")
+        die("Keine Personen. Erst Schritt 3 abschließen.")
 
     bc = {}
     for zeile in read_json(OUT / "04_bettercontact_raw.json", []):
@@ -152,7 +152,7 @@ def main():
     for a_, b_ in [
         ("Was", "Anzahl"),
         ("Firmen in Schritt 1", len(firmen)),
-        ("Personen nach der Passungs-Pruefung", len(zeilen)),
+        ("Personen nach der Passungs-Prüfung", len(zeilen)),
         ("davon mit Mobilnummer", mit_tel),
         ("davon mit E-Mail", mit_mail),
         ("davon mit beidem", beides),

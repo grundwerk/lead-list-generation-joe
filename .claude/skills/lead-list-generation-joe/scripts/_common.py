@@ -1,4 +1,4 @@
-"""Gemeinsame Helfer fuer alle Skripte: Schluessel laden, HTTP, Dateien."""
+"""Gemeinsame Helfer für alle Skripte: Schlüssel laden, HTTP, Dateien."""
 import json
 import os
 import pathlib
@@ -13,7 +13,7 @@ OUT = ROOT / "output"
 
 
 def load_keys():
-    """Liest die Schluessel aus der Umgebung, sonst aus der .env-Datei im Repo-Wurzelverzeichnis."""
+    """Liest die Schlüssel aus der Umgebung, sonst aus der .env-Datei im Repo-Wurzelverzeichnis."""
     envfile = ROOT / ("." + "env")
     if envfile.exists():
         for line in envfile.read_text().splitlines():
@@ -30,7 +30,7 @@ def need(name):
     if not val:
         die(
             f"{name} fehlt.\n"
-            f"Trag den Schluessel in die Datei .env ein (Vorlage: .env.example) "
+            f"Trag den Schlüssel in die Datei .env ein (Vorlage: .env.example) "
             f"oder setz ihn als Umgebungsvariable."
         )
     return val
@@ -42,7 +42,7 @@ def die(msg, code=1):
 
 
 def http(method, url, headers=None, body=None, timeout=120):
-    """Ein HTTP-Aufruf. Gibt (status, geparster-body) zurueck. Wirft nie auf 4xx/5xx,
+    """Ein HTTP-Aufruf. Gibt (status, geparster-body) zurück. Wirft nie auf 4xx/5xx,
     damit der Aufrufer selbst entscheiden kann - ein 202 ist hier kein Fehler."""
     data = None
     headers = dict(headers or {})
@@ -85,10 +85,10 @@ def write_json(path, obj):
 
 
 def confirm(text, auto_yes):
-    """Vor jedem Schritt, der Geld kostet. --ja ueberspringt die Rueckfrage."""
+    """Vor jedem Schritt, der Geld kostet. --ja überspringt die Rückfrage."""
     print(text)
     if auto_yes:
-        print("--ja gesetzt, laeuft los.")
+        print("--ja gesetzt, läuft los.")
         return True
     answer = input("Weiter? [j/N] ").strip().lower()
     if answer not in ("j", "ja", "y", "yes"):

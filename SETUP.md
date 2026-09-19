@@ -1,6 +1,6 @@
 # Einrichten
 
-Einmalig, etwa fuenfzehn Minuten. Danach laeuft jeder weitere Lauf ohne Einrichtung.
+Einmalig, etwa fünfzehn Minuten. Danach läuft jeder weitere Lauf ohne Einrichtung.
 
 ## 1. Claude Code
 
@@ -22,11 +22,11 @@ sobald du in diesem Ordner `claude` startest.
 pip3 install openpyxl
 ```
 
-Das ist alles - alles andere laeuft mit dem, was Python mitbringt.
+Das ist alles - alles andere läuft mit dem, was Python mitbringt.
 
 ## 4. Die drei Konten
 
-Alle drei rechnen nach Verbrauch ab. Kein Abo noetig, um anzufangen.
+Alle drei rechnen nach Verbrauch ab. Kein Abo nötig, um anzufangen.
 
 ### Apify - holt die Personen von LinkedIn
 
@@ -42,27 +42,27 @@ ohne Fehlermeldung.
 
 Anmelden: https://bettercontact.rocks?fpr=gwd-1f7x
 
-Danach: **API**, Schluessel kopieren.
+Danach: **API**, Schlüssel kopieren.
 Direkt: https://app.bettercontact.rocks/api_requests
 
 BetterContact fragt hinter einer Anfrage viele Datenquellen nacheinander ab und
-rechnet nur ab, was gefunden und geprueft wurde.
+rechnet nur ab, was gefunden und geprüft wurde.
 
 ### Lusha - E-Mail und Mobilnummer, Runde 2
 
 Anmelden: https://partnerstack.lusha.com/pdb9o1fn50bv
 
-Danach im Dashboard unter **API** den Schluessel erzeugen.
+Danach im Dashboard unter **API** den Schlüssel erzeugen.
 
 Lusha ist die Gegenprobe. Es findet Leute, die BetterContact nicht hat.
 
-## 5. Die Schluessel eintragen
+## 5. Die Schlüssel eintragen
 
 ```bash
 cp .env.example .env
 ```
 
-Dann `.env` oeffnen und die drei Werte eintragen. Die Datei steht in `.gitignore`
+Dann `.env` öffnen und die drei Werte eintragen. Die Datei steht in `.gitignore`
 und landet nie auf GitHub.
 
 ```
@@ -71,14 +71,14 @@ BETTERCONTACT_API_KEY=...
 LUSHA_API_KEY=...
 ```
 
-## 6. Pruefen, ob alles sitzt
+## 6. Prüfen, ob alles sitzt
 
 ```bash
 python3 .claude/skills/lead-list-generation-joe/scripts/pruefe_setup.py
 ```
 
 Das Skript fragt bei allen drei Anbietern nach dem Kontostand. Es gibt kein Geld aus
-und druckt keinen Schluessel. Drei gruene Haken heisst startklar.
+und druckt keinen Schlüssel. Drei grüne Haken heißt startklar.
 
 ## 7. Loslegen
 
@@ -88,7 +88,7 @@ claude
 
 Und dann einfach sagen:
 
-> Ich will mein Unternehmen verkaufen und brauche eine Kaeuferliste zum Anrufen.
+> Ich will mein Unternehmen verkaufen und brauche eine Käuferliste zum Anrufen.
 
 Claude stellt die Fragen aus Schritt 1 und arbeitet sich durch.
 
@@ -96,15 +96,15 @@ Claude stellt die Fragen aus Schritt 1 und arbeitet sich durch.
 
 ## Wenn etwas klemmt
 
-| Was passiert | Was es heisst |
+| Was passiert | Was es heißt |
 |---|---|
 | `APIFY_TOKEN fehlt` | `.env` liegt nicht im Repo-Wurzelverzeichnis oder die Zeile hat einen Tippfehler |
 | Apify-Lauf bleibt auf READY | keine Zahlungsart im Apify-Konto hinterlegt |
-| BetterContact antwortet `401` | Schluessel falsch. Er gehoert in `X-API-Key`, nicht als `Authorization: Bearer` |
+| BetterContact antwortet `401` | Schlüssel falsch. Er gehört in `X-API-Key`, nicht als `Authorization: Bearer` |
 | BetterContact antwortet `402` | Guthaben leer. Aufladen, Skript neu starten - schon abgeschickte Pakete werden nicht doppelt bezahlt |
-| Lusha antwortet `429` | zu schnell gefragt. Das Skript wartet von selbst. Bei dauerhaftem 429 spaeter neu starten |
+| Lusha antwortet `429` | zu schnell gefragt. Das Skript wartet von selbst. Bei dauerhaftem 429 später neu starten |
 | `No module named openpyxl` | `pip3 install openpyxl` |
 
-**Eine Datei niemals loeschen:** `output/04_bettercontact_state.json`. Darin steht,
+**Eine Datei niemals löschen:** `output/04_bettercontact_state.json`. Darin steht,
 welche Personen schon abgeschickt wurden. Ohne sie zahlt ein zweiter Lauf dieselben
 Daten noch einmal.

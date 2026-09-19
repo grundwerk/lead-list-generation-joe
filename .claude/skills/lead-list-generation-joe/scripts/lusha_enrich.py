@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Schritt 5: zweite Anreicherungs-Runde ueber Lusha.
+"""Schritt 5: zweite Anreicherungs-Runde über Lusha.
 
 Lusha ist die Gegenprobe zu BetterContact. Die beiden finden nicht dieselben Leute:
 wo der eine nichts hat, hat der andere oft etwas. Deshalb laufen beide, und beide
 Ergebnisse stehen am Ende in getrennten Spalten nebeneinander.
 
-Standardmaessig werden nur die Personen angefragt, bei denen BetterContact NICHTS
+Standardmäßig werden nur die Personen angefragt, bei denen BetterContact NICHTS
 gefunden hat. Das spart Guthaben. Mit --alle laufen alle Personen durch.
 
 Jede Antwort wird roh gespeichert, und jede schon angefragte Person steht in
@@ -37,8 +37,8 @@ def domain_von(wert):
 
 def treffer_aus(body):
     """Liest E-Mails und Nummern aus der Antwort heraus. Bewusst nachsichtig geschrieben:
-    Lusha hat die Feldnamen ueber die Jahre geaendert, und die Rohantwort liegt ohnehin
-    vollstaendig in der Datei - wenn hier etwas fehlt, ist es nicht verloren."""
+    Lusha hat die Feldnamen über die Jahre geändert, und die Rohantwort liegt ohnehin
+    vollständig in der Datei - wenn hier etwas fehlt, ist es nicht verloren."""
     daten = body.get("data", body) or {}
     if isinstance(daten, list):
         daten = daten[0] if daten else {}
@@ -95,9 +95,9 @@ def main():
     text = (
         f"\nLusha\n"
         f"  Personen in der Liste:      {len(personen)}\n"
-        f"  schon vollstaendig via BC:  {len(schon_gefunden)}"
-        f"{' (laufen trotzdem mit, --alle gesetzt)' if a.alle else ' (werden uebersprungen)'}\n"
-        f"  frueher schon angefragt:    {len(zustand['fertig'])}\n"
+        f"  schon vollständig via BC:  {len(schon_gefunden)}"
+        f"{' (laufen trotzdem mit, --alle gesetzt)' if a.alle else ' (werden übersprungen)'}\n"
+        f"  früher schon angefragt:    {len(zustand['fertig'])}\n"
         f"  jetzt anzufragen:           {len(todo)}\n"
         f"  Lusha rechnet je aufgedeckter Angabe ab. Kein Treffer, keine Kosten.\n"
     )
@@ -130,7 +130,7 @@ def main():
             if st == 429:
                 versuch += 1
                 if versuch > 5:
-                    die("Lusha bremst dauerhaft (429). Spaeter erneut starten - schon "
+                    die("Lusha bremst dauerhaft (429). Später erneut starten - schon "
                         "angefragte Personen werden nicht doppelt bezahlt.")
                 wartezeit = 5 * versuch
                 print(f"  Lusha bremst, warte {wartezeit}s ...")
@@ -139,7 +139,7 @@ def main():
             break
 
         if st == 401:
-            die("Lusha lehnt den Schluessel ab (401). Er gehoert in den Header api_key.")
+            die("Lusha lehnt den Schlüssel ab (401). Er gehört in den Header api_key.")
         roh[pid] = {"http": st, "antwort": body}
         if st >= 400 and st != 404:
             fehler += 1

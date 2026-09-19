@@ -6,7 +6,7 @@ harvestapi/linkedin-company-employees und legt das Ergebnis roh und normalisiert
 
 Beispiel:
   python3 scripts/apify_employees.py --pro-firma 8 \
-      --titel "CEO,Geschaeftsfuehrer,M&A,Corporate Development,Head of Acquisition" \
+      --titel "CEO,Geschäftsführer,M&A,Corporate Development,Head of Acquisition" \
       --modus full
 """
 import argparse
@@ -20,7 +20,7 @@ from _common import OUT, confirm, die, http, need, write_json  # noqa: E402
 ACTOR = "harvestapi~linkedin-company-employees"
 
 # Preise laut Actor-Seite, Stand 19.09.2026. Die verbindliche Zahl steht immer auf
-# https://apify.com/harvestapi/linkedin-company-employees - hier nur zum Schaetzen.
+# https://apify.com/harvestapi/linkedin-company-employees - hier nur zum Schätzen.
 MODI = {
     "short": ("Short ($4 per 1k)", 0.004),
     "full": ("Full ($8 per 1k)", 0.008),
@@ -55,7 +55,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--firmen", default=str(OUT / "01_firmen.csv"))
     ap.add_argument("--pro-firma", type=int, default=8,
-                    help="Hoechstens so viele Personen je Firma. Das ist die Kostenbremse.")
+                    help="Höchstens so viele Personen je Firma. Das ist die Kostenbremse.")
     ap.add_argument("--titel", default="",
                     help="Jobtitel-Filter, mit Komma getrennt. Leer = alle Personen der Firma.")
     ap.add_argument("--seniority", default="",
@@ -63,7 +63,7 @@ def main():
                          "(Director, VP, CXO, Owner/Partner).")
     ap.add_argument("--orte", default="", help="Orts-Filter, mit Komma getrennt.")
     ap.add_argument("--modus", choices=list(MODI), default="full")
-    ap.add_argument("--ja", action="store_true", help="Kosten-Rueckfrage ueberspringen.")
+    ap.add_argument("--ja", action="store_true", help="Kosten-Rückfrage überspringen.")
     a = ap.parse_args()
 
     token = need("APIFY_TOKEN")
@@ -71,13 +71,13 @@ def main():
 
     if ohne:
         print(f"WARNUNG: {len(ohne)} Zeilen ohne brauchbare LinkedIn-Firmen-URL, "
-              f"sie werden uebersprungen:")
+              f"sie werden übersprungen:")
         for n in ohne[:10]:
             print(f"  - {n}")
         if len(ohne) > 10:
             print(f"  ... und {len(ohne) - 10} weitere")
     if not urls:
-        die("Keine einzige gueltige LinkedIn-Firmen-URL. Ohne die kann der Scraper nichts tun.")
+        die("Keine einzige gültige LinkedIn-Firmen-URL. Ohne die kann der Scraper nichts tun.")
 
     label, preis = MODI[a.modus]
     max_profile = len(urls) * a.pro_firma
@@ -86,12 +86,12 @@ def main():
     text = (
         f"\nApify-Lauf\n"
         f"  Firmen:            {len(urls)}\n"
-        f"  Personen je Firma: hoechstens {a.pro_firma}\n"
+        f"  Personen je Firma: höchstens {a.pro_firma}\n"
         f"  Modus:             {label}\n"
         f"  Obergrenze:        {max_profile} Profile\n"
-        f"  Kosten hoechstens: rund ${schaetzung:.2f} "
+        f"  Kosten höchstens: rund ${schaetzung:.2f} "
         f"({len(urls)} x ${START_KOSTEN:.2f} Start + {max_profile} x ${preis:.3f})\n"
-        f"  Weniger Treffer heisst weniger Kosten, mehr als die Obergrenze geht nicht.\n"
+        f"  Weniger Treffer heißt weniger Kosten, mehr als die Obergrenze geht nicht.\n"
     )
     if not confirm(text, a.ja):
         return
@@ -121,8 +121,8 @@ def main():
     run_id = run.get("data", {}).get("id")
     dataset_id = run.get("data", {}).get("defaultDatasetId")
     if not run_id:
-        die(f"Apify hat keine Lauf-Nummer zurueckgegeben: {run}")
-    print(f"Lauf {run_id} laeuft. Live zusehen: https://console.apify.com/actors/runs/{run_id}")
+        die(f"Apify hat keine Lauf-Nummer zurückgegeben: {run}")
+    print(f"Lauf {run_id} läuft. Live zusehen: https://console.apify.com/actors/runs/{run_id}")
 
     letzter = ""
     while True:
@@ -171,7 +171,7 @@ def main():
                 "ueber_mich": (p.get("about") or "")[:600],
             })
     print(f"Lesbar gespeichert: output/02_personen.csv")
-    print(f"\nNaechster Schritt: die Personen auf Passung pruefen (Schritt 3 im Skill).")
+    print(f"\nNächster Schritt: die Personen auf Passung prüfen (Schritt 3 im Skill).")
 
 
 if __name__ == "__main__":

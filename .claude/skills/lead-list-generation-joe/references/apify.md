@@ -5,9 +5,9 @@
 `harvestapi/linkedin-company-employees`
 https://apify.com/harvestapi/linkedin-company-employees
 
-Er nimmt LinkedIn-Firmenseiten und gibt die Mitarbeiter zurueck, optional nach
+Er nimmt LinkedIn-Firmenseiten und gibt die Mitarbeiter zurück, optional nach
 Jobtitel, Seniority und Ort gefiltert. Er braucht keinen LinkedIn-Zugang und keine
-Cookies - das ist der Grund fuer genau diesen Actor.
+Cookies - das ist der Grund für genau diesen Actor.
 
 ## Was das Skript schickt
 
@@ -22,19 +22,19 @@ Cookies - das ist der Grund fuer genau diesen Actor.
 | `seniorityLevelIds` | `--seniority` | optional |
 | `locations` | `--orte` | optional |
 
-### Warum eine Abfrage je Firma und nicht eine grosse
+### Warum eine Abfrage je Firma und nicht eine große
 
-`all_at_once` sucht ueber alle Firmen zusammen. Dann frisst der groesste Konzern die
-Obergrenze auf, und die zwanzig kleinen Kandidaten kommen mit null Personen zurueck -
+`all_at_once` sucht über alle Firmen zusammen. Dann frisst der größte Konzern die
+Obergrenze auf, und die zwanzig kleinen Kandidaten kommen mit null Personen zurück -
 ohne Fehlermeldung, es sieht einfach nach "da war nichts" aus.
 
-`one_by_one` kostet die Startgebuehr je Firma, rund zwei Cent, und garantiert dafuer,
-dass jede Firma drankommt. Bei sechzig Firmen ist das gut ein Dollar Aufpreis fuer
+`one_by_one` kostet die Startgebühr je Firma, rund zwei Cent, und garantiert dafür,
+dass jede Firma drankommt. Bei sechzig Firmen ist das gut ein Dollar Aufpreis für
 ein Ergebnis, das nicht still schief liegt.
 
 ## Seniority-Nummern
 
-Die relevanten fuer eine Kaeuferliste:
+Die relevanten für eine Käuferliste:
 
 | ID | Stufe |
 |---|---|
@@ -43,7 +43,7 @@ Die relevanten fuer eine Kaeuferliste:
 | 310 | CXO |
 | 320 | Inhaber, Partner |
 
-`--seniority 220,300,310,320` ist der uebliche Zuschnitt. Bei kleinen Firmen und
+`--seniority 220,300,310,320` ist der übliche Zuschnitt. Bei kleinen Firmen und
 Family Offices ruhig weglassen - dort tragen die Entscheider oft gar keinen dieser
 Titel, und der Filter wirft sie dann heraus.
 
@@ -57,16 +57,16 @@ Stand 19.09.2026, laut Actor-Seite. Die verbindliche Zahl steht immer dort, nich
 | Full | rund 8 USD |
 | Full + E-Mail-Suche | rund 12 USD |
 
-Dazu rund 2 Cent Startgebuehr je Abfrage, also je Firma.
+Dazu rund 2 Cent Startgebühr je Abfrage, also je Firma.
 
 **Die E-Mail-Suche wird hier nie benutzt.** Sie ist der teuerste Modus und liefert
-schlechtere Adressen als BetterContact und Lusha, die genau dafuer gebaut sind.
+schlechtere Adressen als BetterContact und Lusha, die genau dafür gebaut sind.
 
-Beispiel: 60 Firmen, je hoechstens 8 Personen, Modus Full
-= 60 x 0,02 USD Start + hoechstens 480 x 0,008 USD
-= hoechstens rund 5,00 USD.
+Beispiel: 60 Firmen, je höchstens 8 Personen, Modus Full
+= 60 x 0,02 USD Start + höchstens 480 x 0,008 USD
+= höchstens rund 5,00 USD.
 
-Das Skript rechnet das vor und fragt nach, bevor es laeuft.
+Das Skript rechnet das vor und fragt nach, bevor es läuft.
 
 ## Fallen
 
@@ -80,6 +80,6 @@ Seniority-Filter fehlt. Abbrechen, enger stellen, neu starten.
 **Der Lauf steht auf READY und bewegt sich nicht.** Das Apify-Konto hat kein Guthaben
 oder keine hinterlegte Zahlung. Steht im Dashboard, nicht in der Antwort des Skripts.
 
-**Die Rohdatei nicht loeschen.** `02_personen_raw.json` enthaelt mehr Felder als die
-CSV. Wenn spaeter etwas fehlt, steht es dort drin - ein zweiter Lauf wuerde noch
+**Die Rohdatei nicht löschen.** `02_personen_raw.json` enthält mehr Felder als die
+CSV. Wenn später etwas fehlt, steht es dort drin - ein zweiter Lauf würde noch
 einmal kosten.
